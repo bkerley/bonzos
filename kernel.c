@@ -45,7 +45,7 @@ void test_memset() {
   char buf[] = "Mazim placerat facer possim assum typi non habent. 1234567890 Motörhead";
   kputs(buf);
 
-  memset(buf, ' ', 10);
+  memset(buf, '_', 10);
 
   kputs(buf);
 }
