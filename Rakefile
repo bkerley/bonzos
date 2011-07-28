@@ -7,12 +7,21 @@ file 'loader.o' => 'loader.s' do
   sh "nasm -f elf -o loader.o loader.s"
 end
 
-file 'kernel.o' => 'kernel.c' do
-  sh "i386-elf-gcc -o kernel.o -c kernel.c -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -std=gnu99"
+C_SOURCES = {
+  'kernel'=>['screen.h'],
+  'bus'=>['bus.h', 'types.h'],
+  'screen'=>['screen.h', 'bus.h', 'types.h'],
+}
+C_OUTPUTS = C_SOURCES.keys.map{ |source| "#{source}.o"}
+
+C_SOURCES.each do |source, deps|
+  file "#{source}.o" => ["#{source}.c", *deps] do
+    sh "i386-elf-gcc -o #{source}.o -c #{source}.c -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -std=gnu99"
+  end
 end
 
-file 'kernel.bin' => ['linker.ld', 'kernel.o', 'loader.o'] do
-  sh "i386-elf-ld -T linker.ld -o kernel.bin loader.o kernel.o"
+file 'kernel.bin' => ['linker.ld', 'loader.o', *C_OUTPUTS] do
+  sh "i386-elf-ld -T linker.ld -o kernel.bin loader.o #{C_OUTPUTS.join ' '}"
 end
 
 file 'floppy.img' => 'kernel.bin' do

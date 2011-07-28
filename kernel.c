@@ -1,10 +1,4 @@
-#define ROWS 24
-#define COLS 80
-
-unsigned char *videoram = (unsigned char *) 0xb8000;
-
-void clear();
-void kputs(char*);
+#include "screen.h"
 
 void kmain( void* mbd, unsigned int magic )
 {
@@ -13,6 +7,9 @@ void kmain( void* mbd, unsigned int magic )
       /* Something went not according to specs. Print an error */
       /* message and halt, but do *not* rely on the multiboot */
       /* data structure. */
+
+     kputs("magic number failed, a-bloo a-bloo :(");
+     return;
    }
  
    /* You could either use multiboot.h */
@@ -28,30 +25,4 @@ void kmain( void* mbd, unsigned int magic )
  
    /* Write your kernel here. */
 
-}
-
-void clear() {
-  unsigned char *videoram_cursor = (unsigned char *) 0xb8000;
-  int row_cursor = 0, col_cursor = 0;
-
-  for (int row_cursor = 0; row_cursor < ROWS; row_cursor++) {
-    for (int col_cursor = 0; col_cursor < COLS; col_cursor++) {
-      *videoram_cursor++ = 0;
-      *videoram_cursor++ = 0x07;
-    }
-  }
-}
-
-void kputs(char* line) {
-  static int row_cursor = 0;
-  unsigned char *videoram_cursor = (unsigned char *) 0xb8000 + (2 * COLS * row_cursor);
-  char *line_cursor = line;
-
-  while (*line_cursor != 0) {
-    *videoram_cursor = *line_cursor;
-    videoram_cursor += 2;
-    line_cursor++;
-  }
-
-  row_cursor++;
 }
