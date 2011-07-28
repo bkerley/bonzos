@@ -1,4 +1,5 @@
 #include "screen.h"
+#include "memory.h"
 
 void kmain( void* mbd, unsigned int magic )
 {
@@ -22,7 +23,29 @@ void kmain( void* mbd, unsigned int magic )
    kputs("Welcome to BonzOS");
    kputs("~ My OS is a POS ~");
    kputs(boot_loader_name);
- 
-   /* Write your kernel here. */
 
+   test_memcpy();
+   test_memset();
+
+   kputs("Okay!");
+}
+
+void test_memcpy() {
+  char source[] = "Mazim placerat facer possim assum typi non habent. 1234567890 Motörhead";
+  char destination[80];
+
+  kputs(source);
+
+  memcpy(destination, source, 73);
+
+  kputs(destination);
+}
+
+void test_memset() {
+  char buf[] = "Mazim placerat facer possim assum typi non habent. 1234567890 Motörhead";
+  kputs(buf);
+
+  memset(buf, ' ', 10);
+
+  kputs(buf);
 }
