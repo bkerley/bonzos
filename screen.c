@@ -27,4 +27,13 @@ void kputs(char* line) {
   }
 
   row_cursor++;
+  move_cursor(0, row_cursor);
+}
+
+void move_cursor(uint16 x, uint16 y) {
+  uint16 position = y * COLS + x;
+  bus_out_byte(0x3d4, 14);
+  bus_out_byte(0x3d5, position >> 8);
+  bus_out_byte(0x3d4, 15);
+  bus_out_byte(0x3d5, position);
 }
