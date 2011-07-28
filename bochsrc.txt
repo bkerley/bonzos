@@ -1,9 +1,2 @@
-megs: 32
-romimage: file=/Users/bkerley/share/bochs/BIOS-bochs-latest, address=0xf0000
-vgaromimage: /Users/bkerley/share/bochs/VGABIOS-elpin-2.40
-floppya: 1_44=/Users/bkerley/Desktop/osdev/tutorial/floppya.img, status=inserted
-boot: a
-log: bochsout.txt
-mouse: enabled=0
-clock: sync=realtime
-cpu: ips=500000
+floppya: 1_44=/Users/bkerley/Desktop/osdev/tutorial/floppy.img, status=inserted
+boot: floppy
