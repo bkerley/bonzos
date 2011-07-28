@@ -8,7 +8,7 @@ file 'loader.o' => 'loader.s' do
 end
 
 file 'kernel.o' => 'kernel.c' do
-  sh "i386-elf-gcc -o kernel.o -c kernel.c -Wall -Wextra -Werror -nostdlib -nostartfiles -nodefaultlibs"
+  sh "i386-elf-gcc -o kernel.o -c kernel.c -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -std=gnu99"
 end
 
 file 'kernel.bin' => ['linker.ld', 'kernel.o', 'loader.o'] do
