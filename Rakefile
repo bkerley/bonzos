@@ -1,4 +1,4 @@
-task :default => 'floppy.img'
+task :default => :bochs
 task :bochs => 'floppy.img' do
   sh 'bochs -q || true'
 end
