@@ -1,6 +1,11 @@
 task :default => :bochs
-task :bochs => 'floppy.img' do
+task :bochs => [:size, 'floppy.img'] do
   sh 'bochs -q || true'
+end
+
+task :size => 'kernel.bin' do
+  size = File.size('kernel.bin')
+  puts "kernel.bin is #{size} bytes or #{(size/512.0).ceil} blocks"
 end
 
 file 'loader.o' => 'loader.s' do
