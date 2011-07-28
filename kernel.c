@@ -1,3 +1,11 @@
+#define ROWS 24
+#define COLS 80
+
+unsigned char *videoram = (unsigned char *) 0xb8000;
+
+void clear();
+void kputs(char*);
+
 void kmain( void* mbd, unsigned int magic )
 {
    if ( magic != 0x2BADB002 )
@@ -11,20 +19,39 @@ void kmain( void* mbd, unsigned int magic )
    /* (http://www.gnu.org/software/grub/manual/multiboot/multiboot.html#multiboot_002eh) */
    /* or do your offsets yourself. The following is merely an example. */ 
    char * boot_loader_name =(char*) ((long*)mbd)[16];
-   char* loader_name_cursor = boot_loader_name;
- 
-   /* Print a letter to screen to see everything is working: */
-   unsigned char *videoram = (unsigned char *) 0xb8000;
-   unsigned char *videoram_cursor = videoram;
 
-   while (*loader_name_cursor != 0) {
-     *videoram_cursor = *loader_name_cursor;
-     videoram_cursor++;
-     *videoram_cursor = 0x07;
-     videoram_cursor++;
-     loader_name_cursor++;
-   }
+   clear();
+
+   kputs("Welcome to BonzOS");
+   kputs("~ My OS is a POS ~");
+   kputs(boot_loader_name);
  
    /* Write your kernel here. */
 
+}
+
+void clear() {
+  unsigned char *videoram_cursor = (unsigned char *) 0xb8000;
+  int row_cursor = 0, col_cursor = 0;
+
+  for (int row_cursor = 0; row_cursor < ROWS; row_cursor++) {
+    for (int col_cursor = 0; col_cursor < COLS; col_cursor++) {
+      *videoram_cursor++ = 0;
+      *videoram_cursor++ = 0x07;
+    }
+  }
+}
+
+void kputs(char* line) {
+  static int row_cursor = 0;
+  unsigned char *videoram_cursor = (unsigned char *) 0xb8000 + (2 * COLS * row_cursor);
+  char *line_cursor = line;
+
+  while (*line_cursor != 0) {
+    *videoram_cursor = *line_cursor;
+    videoram_cursor += 2;
+    line_cursor++;
+  }
+
+  row_cursor++;
 }
