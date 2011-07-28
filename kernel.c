@@ -1,6 +1,10 @@
 #include "screen.h"
 #include "memory.h"
 
+void test_memcpy();
+void test_memset();
+void test_memcmp();
+
 void kmain( void* mbd, unsigned int magic )
 {
    if ( magic != 0x2BADB002 )
@@ -24,28 +28,38 @@ void kmain( void* mbd, unsigned int magic )
    kputs("~ My OS is a POS ~");
    kputs(boot_loader_name);
 
+   kputs("");
+   kputs("Testing memcpy, memset, and memcmp:");
    test_memcpy();
    test_memset();
+   test_memcmp();
 
-   kputs("Okay!");
+
 }
 
 void test_memcpy() {
   char source[] = "Mazim placerat facer possim assum typi non habent. 1234567890 Motörhead";
   char destination[80];
 
-  kputs(source);
-
   memcpy(destination, source, 73);
 
-  kputs(destination);
+  if (memcmp(source, destination, 73) == 0) kputs("memcpy OK");
 }
 
 void test_memset() {
-  char buf[] = "Mazim placerat facer possim assum typi non habent. 1234567890 Motörhead";
-  kputs(buf);
+  char buf[] = "Mazim placerat";
 
   memset(buf, '_', 10);
 
-  kputs(buf);
+  if (memcmp(buf, "__________erat", 14) == 0) kputs("memset OK");
+}
+
+void test_memcmp() {
+  char buf1[] = "aabbccd";
+  char buf2[] = "aabbccd";
+  char buf3[] = "aabbddd";
+
+  if (!memcmp(buf1, buf2, 6) && (memcmp(buf1, buf3, 6) == -1)) {
+    kputs("memcmp OK");
+  }
 }
