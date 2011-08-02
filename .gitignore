@@ -2,3 +2,4 @@
 kernel.bin
 bochsout.txt
 floppy.img
+*.s
