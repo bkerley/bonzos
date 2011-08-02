@@ -15,8 +15,8 @@ end
 C_SOURCES = {
   'kernel'=>['screen.h', 'memory.h', 'types.h'],
   'bus'=>['bus.h', 'types.h'],
-  'screen'=>['screen.h', 'bus.h', 'types.h'],
   'memory'=>['memory.h', 'types.h']
+  'console'=>['console.h', 'bus.h', 'types.h'],
 }
 C_OUTPUTS = C_SOURCES.keys.map{ |source| "#{source}.o"}
 

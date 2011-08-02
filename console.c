@@ -1,4 +1,4 @@
-#include "screen.h"
+#include "console.h"
 #include "bus.h"
 
 unsigned char *videoram = (unsigned char *) 0xb8000;

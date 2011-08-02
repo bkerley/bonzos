@@ -1,5 +1,5 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#ifndef CONSOLE_H
+#define CONSOLE_H
 
 #include "types.h"
 
