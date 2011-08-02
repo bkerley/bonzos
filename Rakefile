@@ -13,10 +13,11 @@ file 'loader.o' => 'loader.s' do
 end
 
 C_SOURCES = {
-  'kernel'=>['screen.h', 'memory.h', 'types.h'],
+  'kernel'=>['console.h', 'memory.h', 'types.h', 'vga.h'],
   'bus'=>['bus.h', 'types.h'],
   'memory'=>['memory.h', 'types.h']
   'console'=>['console.h', 'bus.h', 'types.h'],
+  'vga'=>['vga.h', 'bus.h', 'bochs_vga.h', 'types.h', 'memory.h'],
 }
 C_OUTPUTS = C_SOURCES.keys.map{ |source| "#{source}.o"}
 

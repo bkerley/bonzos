@@ -1,5 +1,6 @@
-#include "screen.h"
+#include "console.h"
 #include "memory.h"
+#include "vga.h"
 
 void test_memcpy();
 void test_memset();
@@ -34,7 +35,17 @@ void kmain( void* mbd, unsigned int magic )
    test_memset();
    test_memcmp();
 
+   if (bochs_vga_available()) {
+     kputs("Bochs VGA is available.");
+     bochs_vga_set_resolution(800, 600);
 
+     clear_screen(0xFF);
+     clear_screen(0xEE);
+     clear_screen(0x77);
+     clear_screen(0x0);
+
+     draw_box(30, 30, 100, 100, 0x00FFFF00);
+   }
 }
 
 void test_memcpy() {
