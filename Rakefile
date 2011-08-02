@@ -22,7 +22,11 @@ C_OUTPUTS = C_SOURCES.keys.map{ |source| "#{source}.o"}
 
 C_SOURCES.each do |source, deps|
   file "#{source}.o" => ["#{source}.c", *deps] do
-    sh "i386-elf-gcc -o #{source}.o -c #{source}.c -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -std=gnu99"
+    sh "i386-elf-gcc -o #{source}.o -c #{source}.c -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -fno-builtin -std=gnu99"
+  end
+
+  file "#{source}.s" => ["#{source}.c", *deps] do
+    sh "i386-elf-gcc -S -c #{source}.c -O3 -Wall -Wextra -nostdlib -nostartfiles -nodefaultlibs -fno-builtin -std=gnu99"
   end
 end
 
